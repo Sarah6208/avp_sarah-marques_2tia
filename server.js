@@ -5,55 +5,119 @@ const port = 3000;
 
 app.use(express.json());
 
-const alunos = [
-  { id: 1, nome: "Augusto", turma: "2TIB" },
-  { id: 2, nome: "Gustavo", turma: "2TIB" },
-  { id: 3, nome: "Rayssa", turma: "2TIB" },
-  { id: 4, nome: "Amanda", turma: "2TIB" },
-  { id: 5, nome: "Marcos", turma: "2TIB" },
-  { id: 6, nome: "Michelly", turma: "2TIB" },
-  { id: 7, nome: "Maria Fernanda", turma: "2TIB" },
-  { id: 8, nome: "Fellype", turma: "2TIB" }
+const racas = [
+  { id: 1, nome: "Golden Retriever", origem: "Reino Unido", porte: "Grande", temperamento: "Amigável" },
+  { id: 2, nome: "Labrador Retriever", origem: "Canadá", porte: "Grande", temperamento: "Dócil" },
+  { id: 3, nome: "Pastor Alemão", origem: "Alemanha", porte: "Grande", temperamento: "Leal" },
+  { id: 4, nome: "Beagle", origem: "Reino Unido", porte: "Médio", temperamento: "Brincalhão" },
+  { id: 5, nome: "Poodle", origem: "França", porte: "Médio", temperamento: "Inteligente" },
+  { id: 6, nome: "Bulldog Francês", origem: "França", porte: "Pequeno", temperamento: "Companheiro" }
 ];
+
+let proximoId = 7;
+
+const camposObrigatorios = ["nome", "origem", "porte", "temperamento"];
+
+function dadosSaoValidos(dados) {
+  return camposObrigatorios.every(
+    (campo) => typeof dados[campo] === "string" && dados[campo].trim() !== ""
+  );
+}
 
 app.get("/", (req, res) => {
   res.json({
-    mensagem: "Servidor Express funcionando!",
-    disciplina: "Desenvolvimento de Websites",
-    bimestre: "3º bimestre"
+    mensagem: "API funcionando!",
+    projeto: "Catálogo de raças de cachorro",
+    informacao: "API REST para cadastro e consulta de raças de cachorro"
   });
 });
 
-app.get("/alunos", (req, res) => {
-  res.json(alunos);
+app.get("/racas", (req, res) => {
+  res.json(racas);
 });
 
-app.get("/alunos/:id", (req, res) => {
+app.get("/racas/:id", (req, res) => {
   const id = Number(req.params.id);
 
-  const aluno = alunos.find((aluno) => aluno.id === id);
+  const raca = racas.find((raca) => raca.id === id);
 
-  if (!aluno) {
+  if (!raca) {
     return res.status(404).json({
-      message: "Aluno não encontrado"
+      mensagem: "Raça não encontrada"
     });
   }
 
-  res.json(aluno);
+  res.json(raca);
 });
 
-app.post("/alunos", (req, res) => {
-  const novoAluno = {
-    id: alunos.length + 1,
+app.post("/racas", (req, res) => {
+  if (!dadosSaoValidos(req.body)) {
+    return res.status(400).json({
+      mensagem: "Os campos nome, origem, porte e temperamento são obrigatórios"
+    });
+  }
+
+  const novaRaca = {
+    id: proximoId,
     nome: req.body.nome,
-    turma: req.body.turma
+    origem: req.body.origem,
+    porte: req.body.porte,
+    temperamento: req.body.temperamento
   };
 
-  alunos.push(novoAluno);
+  proximoId++;
+  racas.push(novaRaca);
 
   res.status(201).json({
-    mensagem: "Aluno cadastrado com sucesso",
-    aluno: novoAluno
+    mensagem: "Raça cadastrada com sucesso",
+    raca: novaRaca
+  });
+});
+
+app.put("/racas/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const indice = racas.findIndex((raca) => raca.id === id);
+
+  if (indice === -1) {
+    return res.status(404).json({
+      mensagem: "Raça não encontrada"
+    });
+  }
+
+  if (!dadosSaoValidos(req.body)) {
+    return res.status(400).json({
+      mensagem: "Os campos nome, origem, porte e temperamento são obrigatórios"
+    });
+  }
+
+  racas[indice] = {
+    id,
+    nome: req.body.nome,
+    origem: req.body.origem,
+    porte: req.body.porte,
+    temperamento: req.body.temperamento
+  };
+
+  res.json({
+    mensagem: "Raça atualizada com sucesso",
+    raca: racas[indice]
+  });
+});
+
+app.delete("/racas/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const indice = racas.findIndex((raca) => raca.id === id);
+
+  if (indice === -1) {
+    return res.status(404).json({
+      mensagem: "Raça não encontrada"
+    });
+  }
+
+  racas.splice(indice, 1);
+
+  res.json({
+    mensagem: "Raça excluída com sucesso"
   });
 });
 
