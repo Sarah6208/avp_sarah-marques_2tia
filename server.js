@@ -24,6 +24,19 @@ function dadosSaoValidos(dados) {
   );
 }
 
+function obterId(req, res) {
+  const id = Number(req.params.id);
+
+  if (!Number.isInteger(id) || id <= 0) {
+    res.status(400).json({
+      mensagem: "O ID deve ser um número inteiro positivo"
+    });
+    return null;
+  }
+
+  return id;
+}
+
 app.get("/", (req, res) => {
   res.json({
     mensagem: "API funcionando!",
@@ -37,7 +50,11 @@ app.get("/racas", (req, res) => {
 });
 
 app.get("/racas/:id", (req, res) => {
-  const id = Number(req.params.id);
+  const id = obterId(req, res);
+
+  if (id === null) {
+    return;
+  }
 
   const raca = racas.find((raca) => raca.id === id);
 
@@ -75,7 +92,12 @@ app.post("/racas", (req, res) => {
 });
 
 app.put("/racas/:id", (req, res) => {
-  const id = Number(req.params.id);
+  const id = obterId(req, res);
+
+  if (id === null) {
+    return;
+  }
+
   const indice = racas.findIndex((raca) => raca.id === id);
 
   if (indice === -1) {
@@ -105,7 +127,12 @@ app.put("/racas/:id", (req, res) => {
 });
 
 app.delete("/racas/:id", (req, res) => {
-  const id = Number(req.params.id);
+  const id = obterId(req, res);
+
+  if (id === null) {
+    return;
+  }
+
   const indice = racas.findIndex((raca) => raca.id === id);
 
   if (indice === -1) {
