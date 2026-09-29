@@ -4,5 +4,26 @@
     "express": "^5.2.1",
     "swagger-jsdoc": "^6.3.0",
     "swagger-ui-express": "^5.0.1"
-  }
+  },
+  "name": "avp_sarah-marques_2tia",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sarah6208/avp_sarah-marques_2tia.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Sarah6208/avp_sarah-marques_2tia/issues"
+  },
+  "homepage": "https://github.com/Sarah6208/avp_sarah-marques_2tia#readme"
 }

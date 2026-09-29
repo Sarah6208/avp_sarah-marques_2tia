@@ -93,7 +93,7 @@ function obterId(req, res) {
   return id;
 }
 
-app.get("/", (req, res) => {
+app.get("/", verificarToken, (req, res) => {
   res.json({
     mensagem: "API funcionando!",
     projeto: "Catálogo de raças de cachorro",
@@ -101,7 +101,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/racas", (req, res) => {
+app.get("/racas", verificarToken, (req, res) => {
   res.json(racas);
 });
 
@@ -159,7 +159,7 @@ app.get("/racas", (req, res) => {
  *         description: Raça não encontrada.
  */
 
-app.get("/racas/:id", (req, res) => {
+app.get("/racas/:id", verificarToken, (req, res) => {
   const id = obterId(req, res);
 
   if (id === null) {
@@ -177,7 +177,7 @@ app.get("/racas/:id", (req, res) => {
   res.json(raca);
 });
 
-app.post("/racas", (req, res) => {
+app.post("/racas", verificarToken, (req, res) => {
   if (!dadosSaoValidos(req.body)) {
     return res.status(400).json({
       mensagem: "Os campos nome, origem, porte e temperamento são obrigatórios"
@@ -338,7 +338,7 @@ app.patch("/racas/:id", (req, res) => {
  *       404:
  *         description: Raça não encontrada.
  */
-app.delete("/racas/:id", (req, res) => {
+app.delete("/racas/:id", verificarToken, (req, res) => {
   const id = obterId(req, res);
 
   if (id === null) {
