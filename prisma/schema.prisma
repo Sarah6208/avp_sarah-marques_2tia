@@ -1,0 +1,21 @@
+//This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/
+
+// Get a free hosted Postgres database in seconds: `npm install prisma --save-dev` and then run `npx prisma db push`
+
+generator client {
+  provider = "prisma-client-js"
+output = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model Raca{
+  id   Int    @id @default(autoincrement())
+  nome String @db.VarChar(100)
+  racas String @db.VarChar(20)
+
+  @@map("racas")
+}
