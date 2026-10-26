@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import swaggerJSDoc from "swagger-jsdoc";
 
 const swaggerOptions = {
@@ -30,3 +31,11 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 
 export default swaggerSpec;
+=======
+import express from "express";
+import "doten/config";
+import swaggerUi from "swagger-ui-express";
+
+import racas from "./src/racas/express";
+import swaggerSpec from ""
+>>>>>>> 1a6cbc05290697039bc880bb57d1c4abfbabd3e5

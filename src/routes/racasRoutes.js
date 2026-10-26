@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Router } from "express";
 import autenticar from "../middleware/autenticar.js";
 import {
@@ -10,47 +11,142 @@ import {
 
 const router = Router();
 
+=======
+>>>>>>> 1a6cbc05290697039bc880bb57d1c4abfbabd3e5
 /**
  * @swagger
  * /racas:
  *   get:
  *     summary: Lista todas as raças
+<<<<<<< HEAD
  *     tags: [Raça]
  *     responses:
  *       200:
  *         description: Lista de raças retornada com sucesso.
  */
 router.get("/", listar);
+=======
+ *     description: Retorna todas as raças de cachorro cadastradas.
+ *     tags:
+ *       - Raça
+ *     responses:
+ *       200:
+ *         description: Lista de raças retornada com sucesso.
+ *         content:
+ *           application/json:
+ *             example:
+ *               - id: 1
+ *                 nome: Golden Retriever
+ *                 origem: Reino Unido
+ *                 porte: Grande
+ *                 temperamento: Amigável
+ */
+>>>>>>> 1a6cbc05290697039bc880bb57d1c4abfbabd3e5
 
 /**
  * @swagger
  * /racas/{id}:
  *   get:
  *     summary: Busca uma raça pelo ID
+<<<<<<< HEAD
  *     tags: [Raça]
+=======
+ *     description: Retorna uma raça de cachorro específica pelo seu ID.
+ *     tags:
+ *       - Raça
+>>>>>>> 1a6cbc05290697039bc880bb57d1c4abfbabd3e5
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
+<<<<<<< HEAD
  *         schema:
  *           type: integer
  *     responses:
  *       200:
  *         description: Raça encontrada com sucesso.
+=======
+ *         description: ID da raça de cachorro.
+ *         schema:
+ *           type: integer
+ *         example: 1
+ *     responses:
+ *       200:
+ *         description: Raça encontrada com sucesso.
+ *         content:
+ *           application/json:
+ *             example:
+ *               id: 1
+ *               nome: Golden Retriever
+ *               origem: Reino Unido
+ *               porte: Grande
+ *               temperamento: Amigável
+>>>>>>> 1a6cbc05290697039bc880bb57d1c4abfbabd3e5
  *       400:
  *         description: O ID informado é inválido.
  *       404:
  *         description: Raça não encontrada.
  */
+<<<<<<< HEAD
 router.get("/:id", buscarPorId);
+=======
+
+app.get("/racas/:id", verificarToken, (req, res) => {
+  const id = obterId(req, res);
+
+  if (id === null) {
+    return;
+  }
+
+  const raca = racas.find((raca) => raca.id === id);
+
+  if (!racas) {
+    return res.status(404).json({
+      mensagem: "Raça não encontrada"
+    });
+  }
+
+  res.json(raca);
+});
+
+app.post("/racas", verificarToken, (req, res) => {
+  if (!dadosSaoValidos(req.body)) {
+    return res.status(400).json({
+      mensagem: "Os campos nome, origem, porte e temperamento são obrigatórios"
+    });
+  }
+
+  const novaRaca = {
+    id: proximoId,
+    nome: req.body.nome,
+    origem: req.body.origem,
+    porte: req.body.porte,
+    temperamento: req.body.temperamento
+  };
+
+  proximoId++;
+  racas.push(novaRaca);
+
+  res.status(201).json({
+    mensagem: "Raça cadastrada com sucesso",
+    raca: novaRaca
+  });
+});
+>>>>>>> 1a6cbc05290697039bc880bb57d1c4abfbabd3e5
 
 /**
  * @swagger
  * /racas:
  *   post:
  *     summary: Cadastra uma nova raça
+<<<<<<< HEAD
  *     description: É necessário enviar um Bearer Token.
  *     tags: [Raça]
+=======
+ *     description: Cadastra uma raça de cachorro. É necessário enviar um Bearer Token.
+ *     tags:
+ *       - Raça
+>>>>>>> 1a6cbc05290697039bc880bb57d1c4abfbabd3e5
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -65,28 +161,59 @@ router.get("/:id", buscarPorId);
  *     responses:
  *       201:
  *         description: Raça cadastrada com sucesso.
+<<<<<<< HEAD
  *       400:
  *         description: Dados inválidos.
  *       401:
  *         description: Token ausente ou inválido.
  */
 router.post("/", autenticar, criar);
+=======
+ *         content:
+ *           application/json:
+ *             example:
+ *               mensagem: Raça cadastrada com sucesso
+ *               raca:
+ *                 id: 7
+ *                 nome: Golden Retriever
+ *                 origem: Reino Unido
+ *                 porte: Grande
+ *                 temperamento: Amigável
+ *       400:
+ *         description: Um ou mais campos obrigatórios não foram informados.
+ *       401:
+ *         description: Token ausente ou inválido.
+ */
+>>>>>>> 1a6cbc05290697039bc880bb57d1c4abfbabd3e5
 
 /**
  * @swagger
  * /racas/{id}:
  *   patch:
  *     summary: Atualiza parcialmente uma raça
+<<<<<<< HEAD
  *     description: É necessário enviar um Bearer Token.
  *     tags: [Raça]
+=======
+ *     description: Atualiza um ou mais dados de uma raça de cachorro. É necessário enviar um Bearer Token.
+ *     tags:
+ *       - Raça
+>>>>>>> 1a6cbc05290697039bc880bb57d1c4abfbabd3e5
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
+<<<<<<< HEAD
  *         schema:
  *           type: integer
+=======
+ *         description: ID da raça de cachorro.
+ *         schema:
+ *           type: integer
+ *         example: 1
+>>>>>>> 1a6cbc05290697039bc880bb57d1c4abfbabd3e5
  *     requestBody:
  *       required: true
  *       content:
@@ -103,26 +230,81 @@ router.post("/", autenticar, criar);
  *       404:
  *         description: Raça não encontrada.
  */
+<<<<<<< HEAD
 router.patch("/:id", autenticar, atualizar);
+=======
+app.patch("/racas/:id", (req, res) => {
+  const id = obterId(req, res);
+
+  if (id === null) {
+    return;
+  }
+
+  const indice = racas.findIndex((raca) => raca.id === id);
+
+  if (indice === -1) {
+    return res.status(404).json({
+      mensagem: "Raça não encontrada"
+    });
+  }
+
+  if (!dadosParciaisSaoValidos(req.body)) {
+    return res.status(400).json({
+      mensagem: "Informe pelo menos um campo válido para atualização"
+    });
+  }
+
+  racas[indice] = {
+    ...racas[indice],
+    ...req.body,
+    id
+  };
+
+  res.json({
+    mensagem: "Raça atualizada com sucesso",
+    raca: racas[indice]
+  });
+});
+>>>>>>> 1a6cbc05290697039bc880bb57d1c4abfbabd3e5
 
 /**
  * @swagger
  * /racas/{id}:
  *   delete:
  *     summary: Exclui uma raça
+<<<<<<< HEAD
  *     description: É necessário enviar um Bearer Token.
  *     tags: [Raça]
+=======
+ *     description: Exclui uma raça de cachorro pelo ID. É necessário enviar um Bearer Token.
+ *     tags:
+ *       - Raça
+>>>>>>> 1a6cbc05290697039bc880bb57d1c4abfbabd3e5
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
+<<<<<<< HEAD
  *         schema:
  *           type: integer
  *     responses:
  *       200:
  *         description: Raça excluída com sucesso.
+=======
+ *         description: ID da raça de cachorro.
+ *         schema:
+ *           type: integer
+ *         example: 1
+ *     responses:
+ *       200:
+ *         description: Raça excluída com sucesso.
+ *         content:
+ *           application/json:
+ *             example:
+ *               mensagem: Raça excluída com sucesso
+>>>>>>> 1a6cbc05290697039bc880bb57d1c4abfbabd3e5
  *       400:
  *         description: O ID informado é inválido.
  *       401:
@@ -130,6 +312,30 @@ router.patch("/:id", autenticar, atualizar);
  *       404:
  *         description: Raça não encontrada.
  */
+<<<<<<< HEAD
 router.delete("/:id", autenticar, excluir);
 
 export default router;
+=======
+app.delete("/racas/:id", verificarToken, (req, res) => {
+  const id = obterId(req, res);
+
+  if (id === null) {
+    return;
+  }
+
+  const indice = racas.findIndex((raca) => raca.id === id);
+
+  if (indice === -1) {
+    return res.status(404).json({
+      mensagem: "Raça não encontrada"
+    });
+  }
+
+  racas.splice(indice, 1);
+
+  res.json({
+    mensagem: "Raça excluída com sucesso"
+  });
+});         
+>>>>>>> 1a6cbc05290697039bc880bb57d1c4abfbabd3e5

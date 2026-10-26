@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   atualizarRaca,
   buscarRacaPorId,
@@ -119,3 +120,28 @@ export async function excluir(req, res, next) {
     tratarErro(next, erro);
   }
 }
+=======
+import racas from "../data/alunos.js";
+
+export function listarRacas(req, res) {
+    res.json(racas);
+}
+
+export function obterRaca(req, res) {
+  const id = obterId(req, res);
+
+  if (id === null) {
+    return;
+  }
+
+  const raca = racas.find((raca) => raca.id === id);
+
+  if (!racas) {
+    return res.status(404).json({
+      mensagem: "Raça não encontrada"
+    });
+  }
+
+  res.json(raca);
+}
+>>>>>>> 1a6cbc05290697039bc880bb57d1c4abfbabd3e5
