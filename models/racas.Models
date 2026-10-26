@@ -1,0 +1,15 @@
+//import prisma client 
+import prisma from "../prisma/client.js";
+
+export function criat ({nome, origem, porte, comportamento}) {
+    return prisma.raca.create{{
+        data: {
+            nome,
+            origem,
+            porte,
+            comportamento
+        }
+    });
+}
+
+export function listarTodos
