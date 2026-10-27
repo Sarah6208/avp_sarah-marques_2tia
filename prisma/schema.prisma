@@ -1,39 +1,20 @@
-<<<<<<< HEAD
 generator client {
   provider = "prisma-client-js"
-=======
-//This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/
-
-// Get a free hosted Postgres database in seconds: `npm install prisma --save-dev` and then run `npx prisma db push`
-
-generator client {
-  provider = "prisma-client-js"
-output = "../generated/prisma"
->>>>>>> 1a6cbc05290697039bc880bb57d1c4abfbabd3e5
 }
 
 datasource db {
   provider = "mysql"
-<<<<<<< HEAD
-  url      = env("DATABASE_URL")
 }
 
 model Raca {
-  id            Int    @id @default(autoincrement())
-  nome          String
-  origem        String
-  porte         String
-  temperamento  String
-}
-=======
-}
+  id           Int    @id @default(autoincrement())
+  nome         String   @db.VarChar(50)
+  origem       String   @db.VarChar(100)
+  porte        String   @db.VarChar(20)
+  temperamento String   @db.VarChar(200)
+  senhaHash    String   @db.VarChar(255) 
+  created      DateTime @default(now())
+  updated      DateTime @updatedAt
 
-model Raca{
-  id   Int    @id @default(autoincrement())
-  nome String @db.VarChar(100)
-  racas String @db.VarChar(20)
-
-  @@map("racas")
+  @@map("raca")
 }
->>>>>>> 1a6cbc05290697039bc880bb57d1c4abfbabd3e5
