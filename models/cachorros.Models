@@ -1,0 +1,28 @@
+
+
+export function criar({ nome, origem, porte, comportamento, senhaHash}) {
+    return prisma.cachorro.create
+    data: {
+        nome,
+        origem,
+        porte,
+        comportamento,
+        senhaHash
+    },
+
+    select: {
+     id: true,
+     nome: true,
+     origem: true,
+     porte: true
+     comportamento: true
+    
+};
+}
+
+export function buscaPorOrigem(Origem) {
+    return prisma.cachorro.findUnique({
+        where: {
+            origem
+        }
+    })}
