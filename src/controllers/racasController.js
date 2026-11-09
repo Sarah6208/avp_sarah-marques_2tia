@@ -1,5 +1,53 @@
-<<<<<<< HEAD
-import {
+import cachorrosModel from '../models/cachorrosModel.js'
+import bcript from 'bcript'
+
+export async function cadastrarCachorro(req, res){
+  const {nome, idade, raca, dono, senha} = req.body
+
+  const senhaHash = await bcript.hash(senha, 10)
+
+  const novoCachorro = await cachorrosModel.criar({
+    nome,
+    idade,
+    raca,
+    dono,
+    senha: senhaHash
+  })
+
+  res.status(201).json({
+    mensagem: 'Cachorro cadastrado com sucesso',
+    novoCachorro
+  })
+}
+
+export async function login(req, res){
+  const {nome, senha} = req.body
+
+  const cachorro = await cachorrosModel.buscarPorNome(nome)
+
+  if(!cachorro){
+    return res.status(401).json({
+      mensagem: 'Email ou senha inválidos'
+      })
+    }
+
+  const senhaCorreta = await bcript.compare(
+    senha, cachorro.senha
+  )
+
+  if(!senhaCorreta){
+    return res.status(401).json({
+      mensagem: 'Email ou senha inválidos'
+      })
+    }
+  }
+
+  //Esse código acima o professor fez com a gente, mas o dele é sobre usuarios e o meu é sobre cachorros, então
+  //eu mudei algumas coisas pra tentar adaptar ao meu, mas cachorros não tem email, então eu mudei pra nome, mas não
+  //funcionaria, então fico por revisar e tentar adaptar melhor, mas o que eu fiz foi isso, tentei adaptar o 
+  //código do professor para o meu projeto.
+  //Embaixo tenho o que a IA fez
+  import {
   atualizarRaca,
   buscarRacaPorId,
   criarRaca,
@@ -120,28 +168,3 @@ export async function excluir(req, res, next) {
     tratarErro(next, erro);
   }
 }
-=======
-import racas from "../data/alunos.js";
-
-export function listarRacas(req, res) {
-    res.json(racas);
-}
-
-export function obterRaca(req, res) {
-  const id = obterId(req, res);
-
-  if (id === null) {
-    return;
-  }
-
-  const raca = racas.find((raca) => raca.id === id);
-
-  if (!racas) {
-    return res.status(404).json({
-      mensagem: "Raça não encontrada"
-    });
-  }
-
-  res.json(raca);
-}
->>>>>>> 1a6cbc05290697039bc880bb57d1c4abfbabd3e5
